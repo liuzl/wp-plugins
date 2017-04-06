@@ -37,6 +37,8 @@ class GenerateWP_Custom_REST_API_Endpoints {
         foreach ($data as $post) {
             unset($post->post_content);
             $post->thumbnail = get_the_post_thumbnail($post->ID);
+            $image_id = get_post_thumbnail_id($post->ID);
+            $post->image = wp_get_attachment_image_src($image_id, 'large');
         }
 
         // @TODO do your magic here
