@@ -34,9 +34,16 @@ class GenerateWP_Custom_REST_API_Endpoints {
             'posts_per_page' => 4,
             'offset' => 0,
         ));
+        $unset_fields = array('post_content', 'post_date_gmt', 'post_status', 'post_excerpt',
+            'post_name', 'to_ping', 'pinged', 'post_modified_gmt', 'post_content_filtered',
+            'post_password', 'post_parent', 'comment_count', 'comment_status', 'ping_status',
+            'post_mime_type', 'filter', 'menu_order', 'post_type', 
+        );
         foreach ($data as $post) {
-            unset($post->post_content);
-            $post->thumbnail = get_the_post_thumbnail($post->ID);
+            foreach ($unset_fields as $field) {
+                unset($post->$field);
+            }
+            // $post->thumbnail = get_the_post_thumbnail($post->ID);
             $image_id = get_post_thumbnail_id($post->ID);
             $post->image = wp_get_attachment_image_src($image_id, 'large');
         }
