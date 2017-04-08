@@ -22,16 +22,10 @@ class GenerateWP_Custom_REST_API_Endpoints {
         ) );
     }
 
-    /**
-     * Get all the candies
-     *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|WP_REST_Request
-     */
-    public static function get_index($request) {
+    private static function _get_posts_by_tag($tag, $number = 4) {
         $data = get_posts(array(
-            'tag' => 'hot',
-            'posts_per_page' => 4,
+            'tag' => $tag,
+            'posts_per_page' => $number,
             'offset' => 0,
         ));
         $unset_fields = array('post_content', 'post_date_gmt', 'post_status', 'post_excerpt',
@@ -47,9 +41,20 @@ class GenerateWP_Custom_REST_API_Endpoints {
             $image_id = get_post_thumbnail_id($post->ID);
             $post->image = wp_get_attachment_image_src($image_id, 'large');
         }
+        return $data;
+    }
 
+    /**
+     * Get all the candies
+     *
+     * @param WP_REST_Request $request Full data about the request.
+     * @return WP_Error|WP_REST_Request
+     */
+    public static function get_index($request) {
+        $hot = GenerateWP_Custom_REST_API_Endpoints::_get_posts_by_tag('hot');
+        $new = GenerateWP_Custom_REST_API_Endpoints::_get_posts_by_tag('new');
         // @TODO do your magic here
-        return new WP_REST_Response( array('hot' => $data), 200 );
+        return new WP_REST_Response( array('hot' => $hot, 'new' => $new), 200 );
     }
 }
 add_action( 'rest_api_init', array( 'GenerateWP_Custom_REST_API_Endpoints', 'register_endpoints' ) );
