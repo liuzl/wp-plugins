@@ -9,16 +9,17 @@
 */
 
 // Register REST API endpoints
-class GenerateWP_Custom_REST_API_Endpoints {
+class Liang_API_Endpoints {
+    private static $base_url = "zliu/v1";
 
     /**
      * Register the routes for the objects of the controller.
      */
     public static function register_endpoints() {
         // endpoints will be registered here
-        register_rest_route( 'zliu/v1', '/index', array(
+        register_rest_route( Liang_API_Endpoints::$base_url, '/index', array(
             'methods' => WP_REST_Server::READABLE,
-            'callback' => array( 'GenerateWP_Custom_REST_API_Endpoints', 'get_index' ),
+            'callback' => array( 'Liang_API_Endpoints', 'get_index' ),
         ) );
     }
 
@@ -51,10 +52,23 @@ class GenerateWP_Custom_REST_API_Endpoints {
      * @return WP_Error|WP_REST_Request
      */
     public static function get_index($request) {
-        $hot = GenerateWP_Custom_REST_API_Endpoints::_get_posts_by_tag('hot');
-        $new = GenerateWP_Custom_REST_API_Endpoints::_get_posts_by_tag('new');
+        $hot = Liang_API_Endpoints::_get_posts_by_tag('hot');
+        $new = Liang_API_Endpoints::_get_posts_by_tag('new');
         // @TODO do your magic here
         return new WP_REST_Response( array('hot' => $hot, 'new' => $new), 200 );
     }
 }
-add_action( 'rest_api_init', array( 'GenerateWP_Custom_REST_API_Endpoints', 'register_endpoints' ) );
+
+function zliu_rest_prepare_user( WP_REST_Response $response, WP_User $user, WP_REST_Request $request ) {
+    $userinfo = get_user_meta($user->ID);
+    if ($userinfo && isset($userinfo['simple_local_avatar'])) {
+        $u = unserialize($userinfo['simple_local_avatar'][0]);
+        $data = $response->get_data();
+        $data['avatar'] = $u;
+        $response->set_data($data);
+    }
+    return $response;
+}
+
+add_action( 'rest_api_init', array( 'Liang_API_Endpoints', 'register_endpoints' ) );
+add_filter( 'rest_prepare_user', 'zliu_rest_prepare_user', 10, 3 );
