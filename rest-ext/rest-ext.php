@@ -52,10 +52,21 @@ class Liang_API_Endpoints {
      * @return WP_Error|WP_REST_Request
      */
     public static function get_index($request) {
-        $hot = Liang_API_Endpoints::_get_posts_by_tag('hot');
-        $new = Liang_API_Endpoints::_get_posts_by_tag('new');
-        // @TODO do your magic here
-        return new WP_REST_Response( array('hot' => $hot, 'new' => $new), 200 );
+        $keys = array(
+            array('hot', 'hot description'),
+            array('new', 'new description'),
+        );
+        $data = array();
+
+        foreach ($keys as $item) {
+            $data[] = array(
+                'tag' => $item[0],
+                'description' => $item[1],
+                'data' => Liang_API_Endpoints::_get_posts_by_tag($item[0]),
+            );
+        }
+
+        return new WP_REST_Response($data, 200);
     }
 }
 
