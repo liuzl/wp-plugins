@@ -86,14 +86,14 @@ function billing_link_function() {
     get_currentuserinfo();
     $return_string = '';
     if ($user_login) {
-        //$return_string = '<ul><li><a href="http://202.152.162.239/isatlp/cyxts/direct/?sdc=98088&kc=REG+CINTA+FYEO+'.$user_login.'&cb=http://fyeo.mobi&desc=Nonton+di+FYEO.MOBI+sepuasnya+paling+seru+cuma+disini!&price=1815+per+minggu&servicename=FYEO">INDOSAT</a></li>';
-        //$return_string .='<li><a href="http://www.gudangapp.com/xlp/?kc=REG+CINTA+FYEO+'.$user_login.'&sdc=92211&cb=http://fyeo.mobi&desc=Nonton+di+FYEO.MOBI+paling+SERU+cuma+Rp2200/SMS/1x/Minggu.&img=http://202.43.169.33/img/game.jpg&eid=ks52c">XL</a></li></ul>';
+        $return_string .= "<h3>Pilih Paket</h3><hr /><p>Some Plan... </p>";
         $trxid = date('YmdHis') . "_" . $user_login . "_REG_";
-        $return_string = '<ul><li><a href="http://202.43.169.33/app/wap/fyeo/isat?trxid='.$trxid.'isat&type=REG">isat REG</a></li>';
-        $return_string .= '<li><a href="http://202.43.169.33/app/wap/fyeo/xl?trxid='.$trxid.'xl&type=REG">xl REG</a></li></ul>';
+        $return_string .= '<a class="btn-default" href="http://202.43.169.33/app/wap/fyeo/isat?trxid='.$trxid.'isat&type=REG">isat REG</a>&nbsp;';
+        $return_string .= '<a class="btn-default" href="http://202.43.169.33/app/wap/fyeo/xl?trxid='.$trxid.'xl&type=REG">xl REG</a>';
     } else {
-        $return_string = 'You need <a href="/login">login</a> to view.';
+        $return_string = 'You need <a href="/login">login</a> to access.';
     }
+    $return_string .= "<hr />";
     return $return_string;
 }
 
