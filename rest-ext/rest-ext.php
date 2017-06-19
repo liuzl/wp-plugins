@@ -91,7 +91,8 @@ function billing_link_function() {
         $return_string .= '<a class="btn-default" href="http://202.43.169.33/app/wap/fyeo/isat?trxid='.$trxid.'isat&type=REG">isat REG</a>&nbsp;';
         $return_string .= '<a class="btn-default" href="http://202.43.169.33/app/wap/fyeo/xl?trxid='.$trxid.'xl&type=REG">xl REG</a>';
     } else {
-        $return_string = 'You need <a href="/login">login</a> to access.';
+        //$return_string = 'You need <a href="/login">login</a> to access.';
+        $return_string = '<a href="/login">daftar dulu untuk masuk</a>';
     }
     $return_string .= "<hr />";
     return $return_string;
