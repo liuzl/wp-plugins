@@ -1,16 +1,13 @@
 <?php
 /*
  * Plugin Name: rest api extensions
- * Plugin URI: http://wordpress.zliu.org/rest-ext.html
  * Description: funciton extensions for rest api.
  * Version: 1.0
- * Author: Zhanliang Liu
- * Author URI: http://zliu.org
 */
 
 // Register REST API endpoints
 class Liang_API_Endpoints {
-    private static $base_url = "zliu/v1";
+    private static $base_url = "ind/v1";
 
     /**
      * Register the routes for the objects of the controller.
