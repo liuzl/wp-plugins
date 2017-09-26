@@ -41,6 +41,8 @@ class Liang_API_Endpoints {
             // $post->thumbnail = get_the_post_thumbnail($post->ID);
             $image_id = get_post_thumbnail_id($post->ID);
             $post->image = wp_get_attachment_image_src($image_id, 'large');
+            $tags = get_the_tags($post->ID);
+            $post->tags = $tags;
         }
         return $data;
     }
@@ -53,6 +55,8 @@ class Liang_API_Endpoints {
      */
     public static function get_index($request) {
         $keys = array(
+            array('label1', 'label1 description'),
+            array('label2', 'label2 description'),
             array('hot', 'hot description'),
             array('new', 'new description'),
         );
